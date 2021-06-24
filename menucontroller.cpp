@@ -17,19 +17,26 @@ MenuController::MenuController(MainWindow* w) : QObject(w)
     //поиск элементов
     _startButton = FindChild<QPushButton>(w, "StartButton");
     _finishButton = FindChild<QPushButton>(w, "FinishButton");
+    _newPolygonButton = FindChild<QPushButton>(w, "NewPolygonButton");
     _label1 = FindChild<QLabel>(w, "LogLabel_1");
     _label2 = FindChild<QLabel>(w, "LogLabel_2");
     _label3 = FindChild<QLabel>(w, "LogLabel_3");
     _mapFrame = FindChild<MapQFrame>(w, "MapFrame");
 
-    //привязка ивентов
     connect(_startButton, &QPushButton::released, [=]{
         OnStartButtonPressed();
     });
-
     connect(_finishButton, &QPushButton::released, [=]{
         OnFinishButtonPressed();
     });
+    connect(_newPolygonButton, &QPushButton::released, [=]{
+        OnNewPolygonButtonPressed();
+    });
+
+    //привязка ивентов
+    connect(_startButton, &QPushButton::released, _mapFrame, &MapQFrame::changeStartMode);
+    connect(_finishButton, &QPushButton::released, _mapFrame, &MapQFrame::changeFinishMode);
+    connect(_newPolygonButton, &QPushButton::released, _mapFrame, &MapQFrame::changeNewPolygonMode);
 
     //закос на FSM
     ExitActionState();
@@ -70,6 +77,11 @@ void MenuController::OnFinishButtonPressed()
     ExitActionState();
 }
 
+void MenuController::OnNewPolygonButtonPressed()
+{
+    _label1->setText("Polygon button was pressed.");
+}
+
 void MenuController::EnterActionState()
 {
     _actionFlag = true;
@@ -82,5 +94,16 @@ void MenuController::ExitActionState()
     _label2->setText("IDLE STATE");
 }
 
+void MenuController::ButtonsColor(bool stateS, bool stateF, bool stateNP)
+{
+    if (stateS) _startButton->setStyleSheet("background-color:green");
+    else _startButton->setStyleSheet("background-color:grey");
+
+    if (stateF) _finishButton->setStyleSheet("background-color:red");
+    else _finishButton->setStyleSheet("background-color:grey");
+
+    if (stateNP) _newPolygonButton->setStyleSheet("background-color:yellow");
+    else _newPolygonButton->setStyleSheet("background-color:grey");
+}
 
 

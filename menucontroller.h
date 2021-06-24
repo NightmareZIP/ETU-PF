@@ -20,10 +20,15 @@ public:
 
 public slots:
     void OnMousePressedInsideMapQFrame(int x, int y);
+    void OnStartButtonPressed();
+    void OnFinishButtonPressed();
+    void OnNewPolygonButtonPressed();
+    void ButtonsColor(bool s, bool s2, bool s3);
 
 private:
     QPushButton* _startButton;
     QPushButton* _finishButton;
+    QPushButton* _newPolygonButton;
 
     QLabel* _label1;
     QLabel* _label2;
@@ -32,9 +37,6 @@ private:
     MapQFrame* _mapFrame;
 
     bool _actionFlag;
-
-    void OnStartButtonPressed();
-    void OnFinishButtonPressed();
 
     void EnterActionState();
     void ExitActionState();

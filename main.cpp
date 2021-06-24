@@ -17,6 +17,11 @@ int main(int argc, char *argv[])
     mapFrame = menuController->GetMapFrame();
 
     QObject::connect(mapFrame, &MapQFrame::OnMousePressed, menuController, &MenuController::OnMousePressedInsideMapQFrame);
+    QObject::connect(mapFrame, &MapQFrame::ChangeButtons, menuController, &MenuController::ButtonsColor);
+
+
+    //QObject::connect(menuController, &MenuController::OnStartButtonPressed, mapFrame, &MapQFrame::changeStartMode);
+    //QObject::connect(menuController, &MenuController::OnFinishButtonPressed, mapFrame, &MapQFrame::changeFinishMode);
 
     return a.exec();
 }
