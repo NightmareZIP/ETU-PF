@@ -17,12 +17,23 @@ void MapQFrame::paintEvent(QPaintEvent *event)
 
         //попытка прописать рисование точек текущего создающегося полигона
         painter.setPen(QPen(Qt::black, 3, Qt::SolidLine, Qt::FlatCap));
-        for (int i = 0; i < NewPolygon->size(); i++)
-        {
-        QPoint* nx = NewPolygon[i][0];
+        if (NewPolygon.length() != 0 and NewPolygonMode){
+        for (int i = 0; i < NewPolygon.length(); i++)
 
-        painter.drawEllipse(NewPolygon[0][1]->x(), NewPolygon[0][i]->y(), 5, 5);
+        {
+        //QPoint nx = NewPolygon;
+
+        painter.drawEllipse(NewPolygon.value(i).x(), NewPolygon.value(i).y(), 5, 5);
         }
+        }
+        if (PolygonList.length() != 0  ){
+            for (int i = 0; i < PolygonList.length(); i++){
+                painter.drawPolygon(PolygonList[i]);
+            }
+
+
+        }
+
 }
 
 void MapQFrame::mousePressEvent(QMouseEvent* ev)
@@ -42,10 +53,10 @@ void MapQFrame::mousePressEvent(QMouseEvent* ev)
         if (NewPolygonMode)
         {
             //записываем очередную точку полигона
-            QPoint* PolygonPoint = new QPoint();
-            PolygonPoint->rx()=ev->x();
-            PolygonPoint->ry()=ev->y();
-            NewPolygon->append(PolygonPoint);
+            QPoint PolygonPoint = *(new QPoint());
+            PolygonPoint.rx()=ev->x();
+            PolygonPoint.ry()=ev->y();
+            NewPolygon.append(PolygonPoint);
         }
         repaint();
         emit OnMousePressed(ev->x(), ev->y());
@@ -78,10 +89,11 @@ void MapQFrame::changeNewPolygonMode()
 
     if (NewPolygonMode) //если только включили режим
     {
-        NewPolygon = new QVector<QPoint*>; //создаем вектор/массив для точек полигон
+        NewPolygon  = *(new QVector<QPoint>); //создаем вектор/массив для точек полигон
     }
-    else if (NewPolygon->length()!=0) //если выключаем режим
+    else if (NewPolygon.length()>=3) //если выключаем режим
     {
+        QPolygon poly = *(new QPolygon(NewPolygon));
         PolygonList.push_back(NewPolygon); //вносим получившийся полигон (если он не пустой) в список полигонов
     }
 }

@@ -31,8 +31,8 @@ private:
     void UpdateCoords();
     void paintEvent(QPaintEvent *event);
 
-    QVector <QVector<QPoint*>*> PolygonList;
-    QVector<QPoint*>* NewPolygon;
+    QVector <QPolygon> PolygonList;
+    QVector<QPoint> NewPolygon;
 };
 
 
