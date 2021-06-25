@@ -1,5 +1,7 @@
 #include "mapqframe.h"
 #include <QPainter>
+#include <QPoint>
+#include <Qt>
 #include <datamanager.h>
 
 MapQFrame::MapQFrame(QWidget* parent) : QFrame(parent)
@@ -53,10 +55,19 @@ void MapQFrame::DrawNode(Node *node, QColor* color)
     QPainter painter(this);
     painter.setPen(*color);
     painter.drawPoint(node->x, node->y);
+        painter.setPen(QPen(Qt::green, 3, Qt::SolidLine, Qt::FlatCap));
+        painter.drawEllipse(StartX, StartY, 5, 5);
+
+
+        painter.setPen(QPen(Qt::red, 3, Qt::SolidLine, Qt::FlatCap));
+        painter.drawEllipse(FinishX, FinishY, 5, 5);
+
 }
 
 void MapQFrame::mousePressEvent(QMouseEvent* ev)
 {
+
+
     if(ev->button() == Qt::LeftButton)
     {
         if (StartMode)
@@ -77,6 +88,22 @@ void MapQFrame::mousePressEvent(QMouseEvent* ev)
             PolygonPoint->ry()=ev->y();
             NewPointsVector.append(*PolygonPoint);
         }
+        if (DeletePolygonMode){
+            QVector<PolygonStruct*> polygons = dataManager->GetAllPolygons();
+            for (int i = 0; i <polygons.length(); i++){
+                QPolygon* polygon = polygons.value(i)->GetPolygon();
+                if (polygon->containsPoint(QPoint(ev->x(), ev->y()), Qt::OddEvenFill) == 1){
+                    qDebug() << "Find delete";
+
+                    dataManager->TryDeletePolygon(i);
+
+                    repaint();
+                    break;
+                }
+
+
+            }
+        }
         repaint();
         emit OnMousePressed(ev->x(), ev->y());
 
@@ -88,7 +115,7 @@ void MapQFrame::changeStartMode()
     StartMode=!StartMode;
     FinishMode=false;
     NewPolygonMode=false;
-    emit ChangeButtons(StartMode, FinishMode, NewPolygonMode);
+    emit ChangeButtons(StartMode, FinishMode, NewPolygonMode, DeletePolygonMode);
 }
 
 void MapQFrame::changeFinishMode()
@@ -96,7 +123,9 @@ void MapQFrame::changeFinishMode()
     FinishMode=!FinishMode;
     StartMode=false;
     NewPolygonMode=false;
-    emit ChangeButtons(StartMode, FinishMode, NewPolygonMode);
+    DeletePolygonMode = false;
+
+    emit ChangeButtons(StartMode, FinishMode, NewPolygonMode, DeletePolygonMode);
 }
 
 void MapQFrame::changeNewPolygonMode()
@@ -104,7 +133,8 @@ void MapQFrame::changeNewPolygonMode()
     NewPolygonMode=!NewPolygonMode;
     StartMode=false;
     FinishMode=false;
-    emit ChangeButtons(StartMode, FinishMode, NewPolygonMode);
+    DeletePolygonMode = false;
+    emit ChangeButtons(StartMode, FinishMode, NewPolygonMode, DeletePolygonMode);
 
     if (NewPolygonMode) //если только включили режим
     {
@@ -114,11 +144,25 @@ void MapQFrame::changeNewPolygonMode()
     {
         bool addResult;
         PolygonStruct* newPolygon = dataManager->TryCreateNewPolygon(NewPointsVector, addResult);
-        newPolygon->SetTraversability((int)rand()%100);
+        newPolygon->SetTraversability(trace_ability);
         if (!addResult)
         {
             //если не создали новый полигон
         }
+        repaint();
+
     }
 }
+
+void MapQFrame::changeDeletePolygonMode(){
+    DeletePolygonMode = !DeletePolygonMode;
+    StartMode = false;
+    FinishMode = false;
+    NewPolygonMode = false;
+    emit ChangeButtons(StartMode, FinishMode, NewPolygonMode, DeletePolygonMode);
+
+}
+
+
+
 

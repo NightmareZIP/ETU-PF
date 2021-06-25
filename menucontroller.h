@@ -7,6 +7,7 @@
 #include <QLineEdit>
 #include <mainwindow.h>
 #include <mapqframe.h>
+#include <QString>
 
 class MenuController;
 
@@ -24,21 +25,21 @@ public slots:
     void OnStartButtonPressed();
     void OnFinishButtonPressed();
     void OnNewPolygonButtonPressed();
-    void OnSetTraceButtonPressed();
-    void ButtonsColor(bool s, bool s2, bool s3);
+    void OnSetTraceAbilityButtonPressed();
+    void OnDeletePolygonButtuonPressed();
+    void ButtonsColor(bool s, bool s2, bool s3, bool s4);
 
 private:
     QPushButton* _startButton;
     QPushButton* _finishButton;
     QPushButton* _newPolygonButton;
-    QPushButton* _SetTraceButton;
-
+    QPushButton* _SetTraceAbilityButton;
+    QPushButton* _DeletePolygonButton;
 
     QLabel* _label1;
     QLabel* _label2;
     QLabel* _label3;
-
-    QLineEdit* _LineEdit;
+    QLineEdit* _lineEdit;
 
     MapQFrame* _mapFrame;
 

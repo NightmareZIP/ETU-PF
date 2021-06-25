@@ -20,7 +20,12 @@ PolygonStruct* DataManager::TryCreateNewPolygon(QVector<QPoint> pointList, bool 
     result = false;
     return nullptr;
 }
+void DataManager::TryDeletePolygon(int ind){
+    PolygonStruct *polygon = PolygonList.value(ind);
+     PolygonList.remove(ind,1);
+    delete polygon;
 
+}
 QVector<PolygonStruct*> DataManager::GetAllPolygons()
 {
     return PolygonList;
