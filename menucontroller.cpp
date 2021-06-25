@@ -12,132 +12,134 @@ T* FindChild(MainWindow* w, QString name)
    return obj;
 }
 
-MenuController::MenuController(MainWindow* w) : QObject(w)
+void AppController::ConnectStateSwitchButton(QPushButton *button, StatesController::STATES state)
+{
+    connect(button, &QPushButton::released, [=]
+    {
+        statesController->SwitchState(state);
+    });
+}
+
+AppController::AppController(MainWindow* w) : QObject(w)
 {
     //поиск элементов
-    _startButton = FindChild<QPushButton>(w, "StartButton");
-    _finishButton = FindChild<QPushButton>(w, "FinishButton");
-    _newPolygonButton = FindChild<QPushButton>(w, "NewPolygonButton");
-    _SetTraceAbilityButton = FindChild<QPushButton>(w, "SetTraceAbilityButton");
-    _DeletePolygonButton = FindChild<QPushButton>(w, "DeletePolygonButton");
+    menuStack               = FindChild<QStackedWidget>(w, "MenuStack");
+    StartButton             = FindChild<QPushButton>(w, "StartButton");
+    FinishButton            = FindChild<QPushButton>(w, "FinishButton");
+    CreatePolygonButton     = FindChild<QPushButton>(w, "CreatePolygonButton");
+    SetTraversabilityButton = FindChild<QPushButton>(w, "SetTraversabilityButton");
+    DeletePolygonButton     = FindChild<QPushButton>(w, "DeletePolygonButton");
 
+    BackFromStartPageButton         = FindChild<QPushButton>(w, "BackFromStartPage");
+    BackFromEndPageButton           = FindChild<QPushButton>(w, "BackFromEndPage");
 
-    _label1 = FindChild<QLabel>(w, "LogLabel_1");
-    _label2 = FindChild<QLabel>(w, "LogLabel_2");
-    _label3 = FindChild<QLabel>(w, "LogLabel_3");
-    _lineEdit = FindChild<QLineEdit>(w, "_lineEdit");
-    _lineEdit->setInputMask("999");
-    _mapFrame = FindChild<MapQFrame>(w, "MapFrame");
+    TraversabilitySpinBox           = FindChild<QSpinBox>(w, "TraversabilitySpinBox");
+    CreatePolygonActionButton       = FindChild<QPushButton>(w, "CreatePolygonActionButton");
+    BackFromCreatePolygonPageButton = FindChild<QPushButton>(w, "BackFromCreatePolygonPage");
 
-    connect(_startButton, &QPushButton::released, [=]{
-        OnStartButtonPressed();
-    });
-    connect(_finishButton, &QPushButton::released, [=]{
-        OnFinishButtonPressed();
-    });
-    connect(_newPolygonButton, &QPushButton::released, [=]{
-        OnNewPolygonButtonPressed();
-    });
+    BackFromDeletePolygonPage = FindChild<QPushButton>(w, "BackFromDeletePolygonPage");
 
-    connect(_SetTraceAbilityButton, &QPushButton::released, [=]{
-        OnSetTraceAbilityButtonPressed();
-    });
-
-    connect(_DeletePolygonButton, &QPushButton::released, [=]{
-        OnDeletePolygonButtuonPressed();
-    });
-
+    label1             = FindChild<QLabel>(w, "LogLabel_1");
+    label2             = FindChild<QLabel>(w, "LogLabel_2");
+    label3             = FindChild<QLabel>(w, "LogLabel_3");
+    stateLabel         = FindChild<QLabel>(w, "StateLabel");
+    traversabilityLine = FindChild<QLineEdit>(w, "TraversabilityLine");
+    mapFrame           = FindChild<MapQFrame>(w, "MapFrame");
+    //----------------------------------------------
 
     //привязка ивентов
-    connect(_startButton, &QPushButton::released, _mapFrame, &MapQFrame::changeStartMode);
-    connect(_finishButton, &QPushButton::released, _mapFrame, &MapQFrame::changeFinishMode);
-    connect(_newPolygonButton, &QPushButton::released, _mapFrame, &MapQFrame::changeNewPolygonMode);
-    connect(_DeletePolygonButton, &QPushButton::released, _mapFrame, &MapQFrame::changeDeletePolygonMode);
+    ConnectStateSwitchButton(StartButton, StatesController::Start);
+    ConnectStateSwitchButton(FinishButton, StatesController::End);
+    ConnectStateSwitchButton(CreatePolygonButton, StatesController::CreatePolygon);
+    ConnectStateSwitchButton(DeletePolygonButton, StatesController::DeletePolygon);
 
-    //закос на FSM
-    ExitActionState();
+    ConnectStateSwitchButton(BackFromStartPageButton, StatesController::Idle);
+
+    ConnectStateSwitchButton(BackFromEndPageButton, StatesController::Idle);
+
+    connect(TraversabilitySpinBox, &QSpinBox::valueChanged, [=]{
+        dataManager->newPolygonTraversability = TraversabilitySpinBox->value();
+    });
+    connect(CreatePolygonActionButton, &QPushButton::released, [=]{
+       statesController->TryCreateNewPolygon();
+    });
+    ConnectStateSwitchButton(BackFromCreatePolygonPageButton, StatesController::Idle);
+
+    ConnectStateSwitchButton(BackFromDeletePolygonPage, StatesController::Idle);
+    //-----------------------------------------------------------------
+
+    dataManager = new DataManager();
+
+    //иницилизация недо SM
+    statesController = new StatesController(dataManager);
+    connect(statesController, &StatesController::OnStateChanged, this, &AppController::HandleStateChange);
+    connect(mapFrame, &MapQFrame::OnMousePressed, statesController, &StatesController::HandlePressOnMap);
+    connect(statesController, &StatesController::OnRepaintRequested, [=]{
+       mapFrame->Repaint(dataManager);
+    });
+    statesController->SwitchState(StatesController::Idle);
+    //----------------------------------------------------
 }
 
-void MenuController::PrintCursorCoords(int x, int y)
+void AppController::PrintCursorCoords(QLabel* label, int x, int y)
 {
     QString string = "X: " + QString::number(x) + " Y: " + QString::number(y);
-    _label3->setText(string);
+    label->setText(string);
 }
 
-void MenuController::OnMousePressedInsideMapQFrame(int x, int y)
+MapQFrame* AppController::GetMapFrame()
 {
-    if (_actionFlag)
-    {
-        PrintCursorCoords(x, y);
-    }
-    else
-    {
-       _label3->setText("exit IDLE state first");
-    }
+    return mapFrame;
 }
 
-MapQFrame* MenuController::GetMapFrame()
+void AppController::OnSetTraversabilityButtonPressed()
 {
-    return _mapFrame;
-}
-
-void MenuController::OnStartButtonPressed()
-{
-    _label1->setText("Start button was pressed.");
-    EnterActionState();
-}
-
-void MenuController::OnFinishButtonPressed()
-{
-    _label1->setText("Finish button was pressed.");
-    ExitActionState();
-}
-
-void MenuController::OnNewPolygonButtonPressed()
-{
-    _label1->setText("Polygon button was pressed.");
-}
-
-void MenuController::OnSetTraceAbilityButtonPressed()
-{
+    /*
     _label1->setText("T button was pressed.");
 
-   if (_mapFrame->NewPolygonMode){
-       QString t = _lineEdit->text();
-       _mapFrame->trace_ability = t.toInt();
+   if (statesController->GetCurrentState() == StatesController::CreatePolygon){
+       QString t = traversabilityLine->text();
+       _mapFrame->traversability = t.toInt();
        _mapFrame->changeNewPolygonMode();
-
    }
+   */
 }
-void MenuController::OnDeletePolygonButtuonPressed()
+
+void AppController::HandleStateChange(StatesController::STATES newState)
 {
-    _label1->setText("Delete button was pressed.");
+    switch(newState)
+    {
+        case StatesController::Idle:
+            PrintCurrentState(stateLabel, "Idle State");
+            menuStack->setCurrentIndex(0);
+        break;
+
+        case StatesController::Start:
+            PrintCurrentState(stateLabel, "Start Point State");
+            menuStack->setCurrentIndex(1);
+        break;
+
+        case StatesController::End:
+            PrintCurrentState(stateLabel, "End Point State");
+            menuStack->setCurrentIndex(2);
+        break;
+
+        case StatesController::CreatePolygon:
+            PrintCurrentState(stateLabel, "Create Polygon State");
+            menuStack->setCurrentIndex(3);
+        break;
+
+        case StatesController::DeletePolygon:
+            PrintCurrentState(stateLabel, "Delete Polygon State");
+            menuStack->setCurrentIndex(4);
+        break;
+
+        default:
+            PrintCurrentState(stateLabel, "Unknown State");
+    }
 }
-void MenuController::EnterActionState()
+
+void AppController::PrintCurrentState(QLabel *outputLabel, QString stateName)
 {
-    _actionFlag = true;
-    _label2->setText("ACTION STATE");
+    outputLabel->setText(stateName);
 }
-
-void MenuController::ExitActionState()
-{
-    _actionFlag = false;
-    _label2->setText("IDLE STATE");
-}
-
-void MenuController::ButtonsColor(bool stateS, bool stateF, bool stateNP, bool stateDP)
-{
-    if (stateS) _startButton->setStyleSheet("background-color:green");
-    else _startButton->setStyleSheet("background-color:grey");
-
-    if (stateF) _finishButton->setStyleSheet("background-color:red");
-    else _finishButton->setStyleSheet("background-color:grey");
-
-    if (stateNP) _newPolygonButton->setStyleSheet("background-color:yellow");
-    else _newPolygonButton->setStyleSheet("background-color:grey");
-
-    if (stateDP) _DeletePolygonButton->setStyleSheet("background-color:yellow");
-    else _DeletePolygonButton->setStyleSheet("background-color:grey");
-}
-
-

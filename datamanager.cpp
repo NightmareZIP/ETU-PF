@@ -12,26 +12,18 @@ PolygonStruct* DataManager::TryCreateNewPolygon(QVector<QPoint> pointList, bool 
     {
         QPolygon* newPolygon = new QPolygon(pointList);
         PolygonStruct* ps = new PolygonStruct(newPolygon);
-        PolygonList.append(ps);
-        qDebug() << "Created new polygon.";
+        ps->SetTraversability(newPolygonTraversability);
+        polygonList.append(ps);
         result = true;
         return ps;
     }
     result = false;
     return nullptr;
 }
+
 void DataManager::TryDeletePolygon(int ind){
-    PolygonStruct *polygon = PolygonList.value(ind);
-     PolygonList.remove(ind,1);
+    PolygonStruct *polygon = polygonList.value(ind);
+     polygonList.remove(ind,1);
     delete polygon;
 
-}
-QVector<PolygonStruct*> DataManager::GetAllPolygons()
-{
-    return PolygonList;
-}
-
-Map *DataManager::GetMap()
-{
-    return map;
 }

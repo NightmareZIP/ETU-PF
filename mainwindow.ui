@@ -23,43 +23,11 @@
    <property name="styleSheet">
     <string notr="true">background-color: rgb(22, 26, 56);</string>
    </property>
-   <widget class="QPushButton" name="StartButton">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>10</y>
-      <width>151</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: white;</string>
-    </property>
-    <property name="text">
-     <string>Start</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="FinishButton">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>90</y>
-      <width>151</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string>color: white;</string>
-    </property>
-    <property name="text">
-     <string>Finish</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="LogLabel_1">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>270</y>
+      <x>10</x>
+      <y>450</y>
       <width>151</width>
       <height>31</height>
      </rect>
@@ -74,8 +42,8 @@
    <widget class="QLabel" name="LogLabel_2">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>310</y>
+      <x>10</x>
+      <y>470</y>
       <width>151</width>
       <height>31</height>
      </rect>
@@ -90,8 +58,8 @@
    <widget class="QLabel" name="LogLabel_3">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>360</y>
+      <x>10</x>
+      <y>490</y>
       <width>151</width>
       <height>31</height>
      </rect>
@@ -122,69 +90,316 @@
      <enum>QFrame::Raised</enum>
     </property>
    </widget>
-   <widget class="QPushButton" name="NewPolygonButton">
+   <widget class="QLabel" name="StateLabel">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>170</y>
+      <x>10</x>
+      <y>10</y>
       <width>151</width>
-      <height>41</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string>color: white;</string>
     </property>
     <property name="text">
-     <string>New Polygon</string>
+     <string>State Label</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QPushButton" name="SetTraceAbilityButton">
+   <widget class="QStackedWidget" name="MenuStack">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>430</y>
-      <width>141</width>
-      <height>31</height>
+      <y>40</y>
+      <width>161</width>
+      <height>391</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);</string>
+    <property name="currentIndex">
+     <number>4</number>
     </property>
-    <property name="text">
-     <string>Set traceability</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="_lineEdit">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>400</y>
-      <width>141</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="DeletePolygonButton">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>230</y>
-      <width>151</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string>Delete Polygon</string>
-    </property>
+    <widget class="QWidget" name="MainMenuPage">
+     <widget class="QPushButton" name="DeletePolygonButton">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>110</y>
+        <width>151</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>Delete Polygon</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="FinishButton">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>50</y>
+        <width>151</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string>color: white;</string>
+      </property>
+      <property name="text">
+       <string>Set end position</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="CreatePolygonButton">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>80</y>
+        <width>151</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string>color: white;</string>
+      </property>
+      <property name="text">
+       <string>Create Polygon</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="StartButton">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>20</y>
+        <width>151</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;</string>
+      </property>
+      <property name="text">
+       <string>Set start position</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="StartNodePage">
+     <widget class="QLabel" name="LogLabel_4">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>20</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string>color: white;</string>
+      </property>
+      <property name="text">
+       <string>Choose start point</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="BackFromStartPage">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>60</y>
+        <width>80</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;</string>
+      </property>
+      <property name="text">
+       <string>Back</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="EndNodePage">
+     <widget class="QLabel" name="LogLabel_5">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string>color: white;</string>
+      </property>
+      <property name="text">
+       <string>Choose end point</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="BackFromEndPage">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>70</y>
+        <width>80</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;</string>
+      </property>
+      <property name="text">
+       <string>Back</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="AddPolygonPage">
+     <widget class="QPushButton" name="BackFromCreatePolygonPage">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>240</y>
+        <width>80</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;</string>
+      </property>
+      <property name="text">
+       <string>Back</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="LogLabel_6">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string>color: white;</string>
+      </property>
+      <property name="text">
+       <string>Select multiple points</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="CreatePolygonActionButton">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>70</y>
+        <width>111</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>MS UI Gothic</family>
+        <pointsize>9</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;</string>
+      </property>
+      <property name="text">
+       <string>Create Polygon</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="TraversabilitySpinBox">
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>40</y>
+        <width>42</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;</string>
+      </property>
+      <property name="maximum">
+       <number>100</number>
+      </property>
+      <property name="singleStep">
+       <number>10</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>40</y>
+        <width>81</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;</string>
+      </property>
+      <property name="text">
+       <string>Traversability</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="DeletePolygonPage">
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>30</y>
+        <width>131</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;</string>
+      </property>
+      <property name="text">
+       <string>Select polygon to delete</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="BackFromDeletePolygonPage">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>60</y>
+        <width>80</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;</string>
+      </property>
+      <property name="text">
+       <string>Back</string>
+      </property>
+     </widget>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -193,7 +408,7 @@
      <x>0</x>
      <y>0</y>
      <width>692</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

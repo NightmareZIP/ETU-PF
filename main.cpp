@@ -5,9 +5,8 @@
 #include <mapqframe.h>
 #include <datamanager.h>
 
-MenuController* menuController;
+AppController* menuController;
 MapQFrame* mapFrame;
-DataManager* dataManager;
 
 int main(int argc, char *argv[])
 {
@@ -15,21 +14,8 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    menuController = new MenuController(&w);
-    mapFrame = menuController->GetMapFrame();
-
-    dataManager = new DataManager();
-    mapFrame->dataManager = dataManager;
-
-    QObject::connect(mapFrame, &MapQFrame::OnMousePressed, menuController, &MenuController::OnMousePressedInsideMapQFrame);
-    QObject::connect(mapFrame, &MapQFrame::ChangeButtons, menuController, &MenuController::ButtonsColor);
-
-
-    //QObject::connect(menuController, &MenuController::OnStartButtonPressed, mapFrame, &MapQFrame::changeStartMode);
-    //QObject::connect(menuController, &MenuController::OnFinishButtonPressed, mapFrame, &MapQFrame::changeFinishMode);
-
-    //QObject::connect(menuController, &MenuController::OnStartButtonPressed, mapFrame, &MapQFrame::changeStartMode);
-    //QObject::connect(menuController, &MenuController::OnFinishButtonPressed, mapFrame, &MapQFrame::changeFinishMode);
+    menuController = new AppController(&w);
+    mapFrame = menuController->GetMapFrame();    
 
     return a.exec();
 }

@@ -8,45 +8,67 @@
 #include <mainwindow.h>
 #include <mapqframe.h>
 #include <QString>
+#include <statescontroller.h>
+#include <qstackedwidget.h>
+#include <QSpinBox>
 
-class MenuController;
+class AppController;
 
-class MenuController : public QObject
+class AppController : public QObject
 {
     Q_OBJECT
 public:
-    explicit MenuController(MainWindow*);
+    explicit AppController(MainWindow*);
     MapQFrame* GetMapFrame();
 
-    void PrintCursorCoords(int x, int y);
+    void PrintCursorCoords(QLabel* label, int x, int y);
 
 public slots:
-    void OnMousePressedInsideMapQFrame(int x, int y);
-    void OnStartButtonPressed();
-    void OnFinishButtonPressed();
-    void OnNewPolygonButtonPressed();
-    void OnSetTraceAbilityButtonPressed();
-    void OnDeletePolygonButtuonPressed();
-    void ButtonsColor(bool s, bool s2, bool s3, bool s4);
+    void OnSetTraversabilityButtonPressed();
+    void HandleStateChange(StatesController::STATES newState);
 
 private:
-    QPushButton* _startButton;
-    QPushButton* _finishButton;
-    QPushButton* _newPolygonButton;
-    QPushButton* _SetTraceAbilityButton;
-    QPushButton* _DeletePolygonButton;
 
-    QLabel* _label1;
-    QLabel* _label2;
-    QLabel* _label3;
-    QLineEdit* _lineEdit;
+    QStackedWidget* menuStack;
 
-    MapQFrame* _mapFrame;
+    //Main Menu tab
+    QPushButton* StartButton;
+    QPushButton* FinishButton;
+    QPushButton* CreatePolygonButton;
+    QPushButton* SetTraversabilityButton;
+    QPushButton* DeletePolygonButton;
+    //----------------------------------
 
-    bool _actionFlag;
+    //Start tab
+    QPushButton* BackFromStartPageButton;
+    //-----------------------------------
 
-    void EnterActionState();
-    void ExitActionState();
+    //End tab
+    QPushButton* BackFromEndPageButton;
+    //---------------------------------
+
+    //Create Polygon tab
+    QSpinBox* TraversabilitySpinBox;
+    QPushButton* CreatePolygonActionButton;
+    QPushButton* BackFromCreatePolygonPageButton;
+    //-------------------------------------------
+
+    //Delete Polygon tab
+    QPushButton* BackFromDeletePolygonPage;
+    //-------------------------------------
+
+    QLabel* label1;
+    QLabel* label2;
+    QLabel* label3;
+    QLabel* stateLabel;
+    QLineEdit* traversabilityLine;
+
+    MapQFrame* mapFrame;
+    StatesController* statesController;
+    DataManager* dataManager;
+
+    void PrintCurrentState(QLabel* outputLabel, QString stateName);
+    void ConnectStateSwitchButton(QPushButton* button, StatesController::STATES state);
 };
 
 #endif // MENUCONTROLLER_H

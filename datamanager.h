@@ -13,12 +13,14 @@ public:
 
     PolygonStruct* TryCreateNewPolygon(QVector<QPoint> pointList, bool& result);
     void TryDeletePolygon(int ind);
-    QVector<PolygonStruct*> GetAllPolygons();
-    Map* GetMap();
 
-private:
-    QVector<PolygonStruct*> PolygonList;
+    QVector<QPoint> newPolygonPoints;
+    int newPolygonTraversability = 0;
+
+    QVector<PolygonStruct*> polygonList;
     Map* map;
+    Node* startNode = nullptr;
+    Node* endNode = nullptr;
 };
 
 #endif // DATAMANAGER_H

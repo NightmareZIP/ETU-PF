@@ -16,7 +16,8 @@ SOURCES += \
     mapqframe.cpp \
     menucontroller.cpp \
     node.cpp \
-    polygonstruct.cpp
+    polygonstruct.cpp \
+    statescontroller.cpp
 
 HEADERS += \
     datamanager.h \
@@ -25,7 +26,8 @@ HEADERS += \
     mapqframe.h \
     menucontroller.h \
     node.h \
-    polygonstruct.h
+    polygonstruct.h \
+    statescontroller.h
 
 FORMS += \
     mainwindow.ui
