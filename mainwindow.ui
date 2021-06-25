@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>692</width>
+    <height>561</height>
    </rect>
   </property>
   <property name="mouseTracking">
@@ -108,8 +108,8 @@
      <rect>
       <x>179</x>
       <y>10</y>
-      <width>601</width>
-      <height>531</height>
+      <width>500</width>
+      <height>500</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -144,8 +144,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>25</height>
+     <width>692</width>
+     <height>20</height>
     </rect>
    </property>
   </widget>

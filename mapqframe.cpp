@@ -1,5 +1,6 @@
 #include "mapqframe.h"
 #include <QPainter>
+#include <datamanager.h>
 
 MapQFrame::MapQFrame(QWidget* parent) : QFrame(parent)
 {
@@ -9,31 +10,49 @@ MapQFrame::MapQFrame(QWidget* parent) : QFrame(parent)
 void MapQFrame::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
-        painter.setPen(QPen(Qt::green, 3, Qt::SolidLine, Qt::FlatCap));
-        painter.drawEllipse(StartX, StartY, 5, 5);
+    painter.setPen(QPen(Qt::green, 3, Qt::SolidLine, Qt::FlatCap));
+    painter.drawEllipse(StartX, StartY, 5, 5);
 
-        painter.setPen(QPen(Qt::red, 3, Qt::SolidLine, Qt::FlatCap));
-        painter.drawEllipse(FinishX, FinishY, 5, 5);
+    painter.setPen(QPen(Qt::red, 3, Qt::SolidLine, Qt::FlatCap));
+    painter.drawEllipse(FinishX, FinishY, 5, 5);
 
-        //попытка прописать рисование точек текущего создающегося полигона
-        painter.setPen(QPen(Qt::black, 3, Qt::SolidLine, Qt::FlatCap));
-        if (NewPolygon.length() != 0 and NewPolygonMode){
-        for (int i = 0; i < NewPolygon.length(); i++)
-
+    //попытка прописать рисование точек текущего создающегося полигона
+    painter.setPen(QPen(Qt::black, 3, Qt::SolidLine, Qt::FlatCap));
+    if (NewPointsVector.length() != 0 and NewPolygonMode){
+        for (int i = 0; i < NewPointsVector.length(); i++)
         {
-        //QPoint nx = NewPolygon;
-
-        painter.drawEllipse(NewPolygon.value(i).x(), NewPolygon.value(i).y(), 5, 5);
+            //QPoint nx = NewPolygon;
+            painter.drawEllipse(NewPointsVector.value(i).x(), NewPointsVector.value(i).y(), 5, 5);
         }
-        }
-        if (PolygonList.length() != 0  ){
-            for (int i = 0; i < PolygonList.length(); i++){
-                painter.drawPolygon(PolygonList[i]);
-            }
+    }
 
+    painter.end();
 
-        }
+    DrawPolygons();
+}
 
+void MapQFrame::DrawPolygons()
+{
+    QPainter painter(this);
+    //Draw all polygons
+    QVector<PolygonStruct*> polygons = dataManager->GetAllPolygons();
+    for (int i = 0; i < polygons.count(); i++)
+    {
+        PolygonStruct* polygon = polygons.value(i);
+        painter.setPen(Qt::darkGreen);
+        int rgb = polygon->GetTraversability() * 2.55;
+        painter.setBrush(*new QBrush(*new QColor(rgb, rgb, rgb)));
+        painter.drawPolygon(*polygon->GetPolygon(), Qt::WindingFill);
+    }
+
+    painter.end();
+}
+
+void MapQFrame::DrawNode(Node *node, QColor* color)
+{
+    QPainter painter(this);
+    painter.setPen(*color);
+    painter.drawPoint(node->x, node->y);
 }
 
 void MapQFrame::mousePressEvent(QMouseEvent* ev)
@@ -53,10 +72,10 @@ void MapQFrame::mousePressEvent(QMouseEvent* ev)
         if (NewPolygonMode)
         {
             //записываем очередную точку полигона
-            QPoint PolygonPoint = *(new QPoint());
-            PolygonPoint.rx()=ev->x();
-            PolygonPoint.ry()=ev->y();
-            NewPolygon.append(PolygonPoint);
+            QPoint* PolygonPoint = new QPoint();
+            PolygonPoint->rx()=ev->x();
+            PolygonPoint->ry()=ev->y();
+            NewPointsVector.append(*PolygonPoint);
         }
         repaint();
         emit OnMousePressed(ev->x(), ev->y());
@@ -89,12 +108,17 @@ void MapQFrame::changeNewPolygonMode()
 
     if (NewPolygonMode) //если только включили режим
     {
-        NewPolygon  = *(new QVector<QPoint>); //создаем вектор/массив для точек полигон
+        NewPointsVector  = *(new QVector<QPoint>); //создаем вектор/массив для точек полигон
     }
-    else if (NewPolygon.length()>=3) //если выключаем режим
+    else
     {
-        QPolygon poly = *(new QPolygon(NewPolygon));
-        PolygonList.push_back(NewPolygon); //вносим получившийся полигон (если он не пустой) в список полигонов
+        bool addResult;
+        PolygonStruct* newPolygon = dataManager->TryCreateNewPolygon(NewPointsVector, addResult);
+        newPolygon->SetTraversability((int)rand()%100);
+        if (!addResult)
+        {
+            //если не создали новый полигон
+        }
     }
 }
 

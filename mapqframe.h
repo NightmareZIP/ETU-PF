@@ -5,6 +5,8 @@
 #include <QMouseEvent>
 #include <QVector>
 #include <QPoint>
+#include <datamanager.h>
+#include <polygonstruct.h>
 
 class MapQFrame;
 
@@ -13,6 +15,8 @@ class MapQFrame : public QFrame
     Q_OBJECT
 public:
     explicit MapQFrame(QWidget *parent = nullptr);
+
+    DataManager* dataManager;
 
     void mousePressEvent(QMouseEvent * ev);
     void changeStartMode();
@@ -31,8 +35,10 @@ private:
     void UpdateCoords();
     void paintEvent(QPaintEvent *event);
 
-    QVector <QPolygon> PolygonList;
-    QVector<QPoint> NewPolygon;
+    void DrawPolygons();
+    void DrawNode(Node *node, QColor* color);
+
+    QVector<QPoint> NewPointsVector;
 };
 
 
