@@ -18,9 +18,15 @@ MenuController::MenuController(MainWindow* w) : QObject(w)
     _startButton = FindChild<QPushButton>(w, "StartButton");
     _finishButton = FindChild<QPushButton>(w, "FinishButton");
     _newPolygonButton = FindChild<QPushButton>(w, "NewPolygonButton");
+    _SetTraceButton= FindChild<QPushButton>(w, "NewPolygonButton");
+
+
     _label1 = FindChild<QLabel>(w, "LogLabel_1");
     _label2 = FindChild<QLabel>(w, "LogLabel_2");
     _label3 = FindChild<QLabel>(w, "LogLabel_3");
+
+    _LineEdit = FindChild<QLineEdit>(w, "LineEdit");
+
     _mapFrame = FindChild<MapQFrame>(w, "MapFrame");
 
     connect(_startButton, &QPushButton::released, [=]{
@@ -31,6 +37,10 @@ MenuController::MenuController(MainWindow* w) : QObject(w)
     });
     connect(_newPolygonButton, &QPushButton::released, [=]{
         OnNewPolygonButtonPressed();
+    });
+
+    connect(_SetTraceButton, &QPushButton::released, [=]{
+        OnSetTraceButtonPressed();
     });
 
     //привязка ивентов
@@ -80,6 +90,12 @@ void MenuController::OnFinishButtonPressed()
 void MenuController::OnNewPolygonButtonPressed()
 {
     _label1->setText("Polygon button was pressed.");
+}
+
+void MenuController::OnSetTraceButtonPressed(){
+    if (_mapFrame->NewPolygonMode){
+        //_mapFrame->changeNewPolygonMode();
+    }
 }
 
 void MenuController::EnterActionState()

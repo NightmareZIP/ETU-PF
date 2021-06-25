@@ -138,6 +138,35 @@
      <string>New Polygon</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="SetTraceButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>400</y>
+      <width>111</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>Ввод проходимости</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="LineEdit">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>370</y>
+      <width>113</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -145,7 +174,7 @@
      <x>0</x>
      <y>0</y>
      <width>692</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
