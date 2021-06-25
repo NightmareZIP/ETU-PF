@@ -5,13 +5,14 @@
 #include <QPoint>
 #include <polygonstruct.h>
 #include <map.h>
-
+#include <QPolygon>
 class DataManager
 {
 public:
     explicit DataManager();
 
     PolygonStruct* TryCreateNewPolygon(QVector<QPoint> pointList, bool& result);
+    void TryDeletePolygon(int ind);
     QVector<PolygonStruct*> GetAllPolygons();
     Map* GetMap();
 

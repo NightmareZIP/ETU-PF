@@ -59,7 +59,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>250</y>
+      <y>270</y>
       <width>151</width>
       <height>31</height>
      </rect>
@@ -75,7 +75,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>290</y>
+      <y>310</y>
       <width>151</width>
       <height>31</height>
      </rect>
@@ -91,7 +91,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>330</y>
+      <y>360</y>
       <width>151</width>
       <height>31</height>
      </rect>
@@ -128,7 +128,7 @@
       <x>20</x>
       <y>170</y>
       <width>151</width>
-      <height>71</height>
+      <height>41</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -138,6 +138,54 @@
      <string>New Polygon</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="SetTraceAbilityButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>430</y>
+      <width>141</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>Set traceability</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="_lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>400</y>
+      <width>141</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="DeletePolygonButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>230</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>Delete Polygon</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -145,7 +193,7 @@
      <x>0</x>
      <y>0</y>
      <width>692</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

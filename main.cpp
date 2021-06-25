@@ -28,5 +28,8 @@ int main(int argc, char *argv[])
     //QObject::connect(menuController, &MenuController::OnStartButtonPressed, mapFrame, &MapQFrame::changeStartMode);
     //QObject::connect(menuController, &MenuController::OnFinishButtonPressed, mapFrame, &MapQFrame::changeFinishMode);
 
+    //QObject::connect(menuController, &MenuController::OnStartButtonPressed, mapFrame, &MapQFrame::changeStartMode);
+    //QObject::connect(menuController, &MenuController::OnFinishButtonPressed, mapFrame, &MapQFrame::changeFinishMode);
+
     return a.exec();
 }

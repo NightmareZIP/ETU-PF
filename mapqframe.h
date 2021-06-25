@@ -7,6 +7,7 @@
 #include <QPoint>
 #include <datamanager.h>
 #include <polygonstruct.h>
+#include <QString>
 
 class MapQFrame;
 
@@ -22,13 +23,17 @@ public:
     void changeStartMode();
     void changeFinishMode();
     void changeNewPolygonMode();
+    void changeDeletePolygonMode();
     int x,y;
-    bool StartMode = false, FinishMode = false, NewPolygonMode = false;
+    int trace_ability;
+    bool StartMode = false, FinishMode = false, NewPolygonMode = false,
+    DeletePolygonMode = false;
     int StartX, StartY, FinishX, FinishY;
 
 signals:
     void OnMousePressed(int x, int y);
-    void ChangeButtons (bool s, bool s2, bool s3);
+    void ChangeButtons (bool s, bool s2, bool s3, bool s4);
+
 
 
 private:
