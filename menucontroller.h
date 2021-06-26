@@ -37,6 +37,7 @@ private:
     QPushButton* CreatePolygonButton;
     QPushButton* SetTraversabilityButton;
     QPushButton* DeletePolygonButton;
+    QPushButton* BuildMapButton;
     //----------------------------------
 
     //Start tab

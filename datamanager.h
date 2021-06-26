@@ -12,7 +12,8 @@ public:
     explicit DataManager();
 
     PolygonStruct* TryCreateNewPolygon(QVector<QPoint> pointList, bool& result);
-    void TryDeletePolygon(int ind);
+
+    void BuildMap();
 
     QVector<QPoint> newPolygonPoints;
     int newPolygonTraversability = 0;

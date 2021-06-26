@@ -85,16 +85,18 @@ void StatesController::HandlePressOnMapWhileInCreatePolygonState(int x, int y)
 
 void StatesController::HandlePressOnMapWhileInDeletePolygonState(int x, int y)
 {
-    for (int i = 0; i < dataManager->polygonList.count(); i++)
+    for (int i = dataManager->polygonList.count() - 1; i >= 0; i--)
     {
         PolygonStruct* ps = dataManager->polygonList.value(i);
         QPoint* point = new QPoint(x, y);
         if (ps->GetPolygon()->containsPoint(*point, Qt::WindingFill))
         {
             dataManager->polygonList.removeAt(i);
-            qDebug() << "Deleted polygon.";
+            delete ps;
+            qDebug() << "Deleted polygon.";            
+            delete point;
+            break;
         }
-        delete point;
     }
     emit OnRepaintRequested();
 }

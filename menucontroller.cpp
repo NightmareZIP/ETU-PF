@@ -29,6 +29,7 @@ AppController::AppController(MainWindow* w) : QObject(w)
     CreatePolygonButton     = FindChild<QPushButton>(w, "CreatePolygonButton");
     SetTraversabilityButton = FindChild<QPushButton>(w, "SetTraversabilityButton");
     DeletePolygonButton     = FindChild<QPushButton>(w, "DeletePolygonButton");
+    BuildMapButton          = FindChild<QPushButton>(w, "BuildMapButton");
 
     BackFromStartPageButton         = FindChild<QPushButton>(w, "BackFromStartPage");
     BackFromEndPageButton           = FindChild<QPushButton>(w, "BackFromEndPage");
@@ -52,6 +53,10 @@ AppController::AppController(MainWindow* w) : QObject(w)
     ConnectStateSwitchButton(FinishButton, StatesController::End);
     ConnectStateSwitchButton(CreatePolygonButton, StatesController::CreatePolygon);
     ConnectStateSwitchButton(DeletePolygonButton, StatesController::DeletePolygon);
+
+    connect(BuildMapButton, &QPushButton::released, [=]{
+       dataManager->BuildMap();
+    });
 
     ConnectStateSwitchButton(BackFromStartPageButton, StatesController::Idle);
 

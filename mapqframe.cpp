@@ -1,4 +1,5 @@
 #include "mapqframe.h"
+#include <QElapsedTimer>
 #include <QPainter>
 #include <QPoint>
 #include <Qt>
@@ -67,33 +68,20 @@ void MapQFrame::DrawPolygons()
     for (int i = 0; i < polygons.count(); i++)
     {
         PolygonStruct* polygon = polygons.value(i);
-        int rgb = polygon->GetTraversability() * 2.55;
         if (polygon->GetTraversability() == 0)
         {
-            painter.setBrush(*new QBrush(*new QColor(rgb, rgb, rgb), Qt::SolidPattern));
+            QColor* color = new QColor(14, 45, 157);
+            painter.setBrush(*new QBrush(*color, Qt::SolidPattern));
+            delete color;
         }
         else
         {
-            painter.setBrush(*new QBrush(*new QColor(rgb, rgb, rgb), Qt::Dense2Pattern));
+            int rgb = polygon->GetTraversability() * 2.55;
+            painter.setBrush(*new QBrush(*new QColor(rgb, rgb, rgb), Qt::SolidPattern));
         }
         painter.drawPolygon(*polygon->GetPolygon(), Qt::WindingFill);
     }
     painter.end();
-}
-
-void MapQFrame::DrawNode(Node *node, QColor* color)
-{
-    /*
-    QPainter painter(this);
-    painter.setPen(*color);
-    painter.drawPoint(node->x, node->y);
-        painter.setPen(QPen(Qt::green, 3, Qt::SolidLine, Qt::FlatCap));
-        painter.drawEllipse(dataManager->startNode->x, dataManager->startNode->y, 5, 5);
-
-
-        painter.setPen(QPen(Qt::red, 3, Qt::SolidLine, Qt::FlatCap));
-        painter.drawEllipse(dataManager->endNode->x, dataManager->endNode->y, 5, 5);
-        */
 }
 
 void MapQFrame::mousePressEvent(QMouseEvent* ev)
