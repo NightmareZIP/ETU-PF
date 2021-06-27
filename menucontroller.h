@@ -37,7 +37,6 @@ private:
     QPushButton* CreatePolygonButton;
     QPushButton* SetTraversabilityButton;
     QPushButton* DeletePolygonButton;
-    QPushButton* BuildMapButton;
     QPushButton* FindPathButton;
     //----------------------------------
 

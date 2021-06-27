@@ -23,6 +23,18 @@ void MapQFrame::paintEvent(QPaintEvent *event)
     if (dataManager != nullptr)
     {
 
+        //draw all polygons
+        DrawPolygons(painter);
+
+        //new polygon points
+        for (int i = 0; i < dataManager->newPolygonPoints.length(); i++)
+        {
+            QPoint point = dataManager->newPolygonPoints.value(i);
+            QColor* color = new QColor(0, 0, 0);
+            DrawCircle(painter, point.x(), point.y(), *color, 5);
+            delete color;
+        }
+
         //start node
         if (dataManager->startNode != nullptr)
         {
@@ -38,19 +50,6 @@ void MapQFrame::paintEvent(QPaintEvent *event)
             DrawCircle(painter, dataManager->endNode->x, dataManager->endNode->y, *color, 5);
             delete color;
         }
-
-        //new polygon points
-        for (int i = 0; i < dataManager->newPolygonPoints.length(); i++)
-        {
-            QPoint point = dataManager->newPolygonPoints.value(i);
-            QColor* color = new QColor(0, 0, 0);
-            DrawCircle(painter, point.x(), point.y(), *color, 5);
-            delete color;
-        }
-
-        //draw all polygons
-        DrawPolygons(painter);
-
         //draw path
         for (int i = 0; i < dataManager->lastFoundPath.count(); i++)
         {
