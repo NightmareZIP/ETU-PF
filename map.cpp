@@ -34,6 +34,12 @@ QVector<Node *> Map::GetNeighbours(Node *rootNode)
     neighbours.append(NodeAt(x, y-1));
     neighbours.append(NodeAt(x-1, y));
 
+    neighbours.append(NodeAt(x-1, y-1));
+    neighbours.append(NodeAt(x-1, y+1));
+    neighbours.append(NodeAt(x+1, y-1));
+    neighbours.append(NodeAt(x+1, y+1));
+
+
     for (int i = neighbours.count() - 1; i >= 0; i--)
     {
         Node* n = neighbours.value(i);
