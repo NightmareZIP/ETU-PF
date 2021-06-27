@@ -23,10 +23,10 @@ void MapQFrame::paintEvent(QPaintEvent *event)
     if (dataManager != nullptr)
     {
 
-        //draw all polygons
+        //отрисовка полигонов
         DrawPolygons(painter);
 
-        //new polygon points
+        //отрисовка клеток для нового полигона
         for (int i = 0; i < dataManager->newPolygonPoints.length(); i++)
         {
             QPoint point = dataManager->newPolygonPoints.value(i);
@@ -35,7 +35,7 @@ void MapQFrame::paintEvent(QPaintEvent *event)
             delete color;
         }
 
-        //start node
+        //отрисовка начальной точки
         if (dataManager->startNode != nullptr)
         {
             QColor* color = new QColor(49, 145, 37);
@@ -43,26 +43,43 @@ void MapQFrame::paintEvent(QPaintEvent *event)
             delete color;
         }
 
-        //end node
+        //отрисовка конечной точки
         if (dataManager->endNode != nullptr)
         {
             QColor* color = new QColor(203, 34, 34);
             DrawCircle(painter, dataManager->endNode->x, dataManager->endNode->y, *color, 5);
             delete color;
         }
-        //draw path
-        for (int i = 0; i < dataManager->lastFoundPath.count(); i++)
+
+        if (showOriginalPath)
         {
-            Node* node = dataManager->lastFoundPath.value(i);
-            QColor* color = new QColor(223, 234, 33);
-            DrawCircle(painter, node->x, node->y, *color, 3);
-            delete color;
+            //отрисовка оригинального пути, созданного с помощью A* (сиреневый цвет)
+            for (int i = 0; i < dataManager->lastFoundPathOriginal.count(); i++)
+            {
+                Node* node = dataManager->lastFoundPathOriginal.value(i);
+                QColor* color = new QColor(33, 234, 224);
+                DrawCircle(painter, node->x, node->y, *color, 1);
+                delete color;
+            }
+        }
+
+        if (showPulledPath)
+        {
+            //отрисовка сжатого пути (желтый цвет)
+            for (int i = 0; i < dataManager->lastFoundPath.count(); i++)
+            {
+                Node* node = dataManager->lastFoundPath.value(i);
+                QColor* color = new QColor(223, 234, 33);
+                DrawCircle(painter, node->x, node->y, *color, 1);
+                delete color;
+            }
         }
     }
 
     painter.end();
 }
 
+//функция для рисования круга
 void MapQFrame::DrawCircle(QPainter& painter, int x, int y, QColor color, int size)
 {
     painter.setPen(color);
@@ -70,8 +87,11 @@ void MapQFrame::DrawCircle(QPainter& painter, int x, int y, QColor color, int si
     painter.drawEllipse(x, y, size, size);
 }
 
+//функция для отрисовки полигонов
 void MapQFrame::DrawPolygons(QPainter& painter)
 {
+    QColor color = *new QColor(255, 255, 255);
+    painter.setPen(color);
     //Draw all polygons
     QVector<PolygonStruct*> polygons = dataManager->polygonList;
     for (int i = 0; i < polygons.count(); i++)

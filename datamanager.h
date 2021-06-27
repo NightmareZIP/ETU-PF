@@ -14,11 +14,17 @@ public:
     PolygonStruct* TryCreateNewPolygon(QVector<QPoint> pointList, bool& result);
 
     void BuildMap();
+    void ConvertPathToBLine();
+    QVector<Node*> BresenhamLine();
+    bool CanPullNodes(Node* nodeA, Node* nodeB);
+    void PullPath(int pass);
 
     QVector<QPoint> newPolygonPoints;
     int newPolygonTraversability = 0;
 
+    QVector<Node*> lastFoundPathOriginal;
     QVector<Node*> lastFoundPath;
+    QVector<Node*> bLine;
 
     QVector<PolygonStruct*> polygonList;
     Map* map;

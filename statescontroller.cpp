@@ -46,6 +46,7 @@ void StatesController::ClearTemporalData()
 {
     dataManager->newPolygonPoints.clear();
     dataManager->lastFoundPath.clear();
+    dataManager->lastFoundPathOriginal.clear();
     emit OnRepaintRequested();
 }
 
@@ -129,6 +130,7 @@ void StatesController::FindPath()
     Node* startNode = dataManager->startNode;
     Node* endNode = dataManager->endNode;
 
+
     if (startNode == nullptr || endNode == nullptr)
     {
         qDebug() << "Cannot find path.";
@@ -136,8 +138,17 @@ void StatesController::FindPath()
     }
 
     dataManager->BuildMap();
-    dataManager->lastFoundPath = Pathfinder::FindPath(startNode, endNode, dataManager->map);
+    dataManager->lastFoundPath = Pathfinder::FindPath(startNode, endNode, dataManager->map);    
+    dataManager->lastFoundPathOriginal = dataManager->lastFoundPath;
+
+    int foundPathLength = dataManager->lastFoundPath.count();
+    if (calculatePulledPath)
+    {
+        dataManager->ConvertPathToBLine();
+    }
+    int newPathLength = dataManager->lastFoundPath.count();
+
     emit OnRepaintRequested();
 
-    qDebug() << "Found Path(" << path.count() << ") in " << timer.elapsed() << "ms.";
+    qDebug() << "Found Path(" << foundPathLength << ")->(" << newPathLength << ") in " << timer.elapsed() << "ms.";
 }

@@ -23,54 +23,6 @@
    <property name="styleSheet">
     <string notr="true">background-color: rgb(22, 26, 56);</string>
    </property>
-   <widget class="QLabel" name="LogLabel_1">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>450</y>
-      <width>151</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string>color: white;</string>
-    </property>
-    <property name="text">
-     <string>LOG1: </string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="LogLabel_2">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>470</y>
-      <width>151</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string>color: white;</string>
-    </property>
-    <property name="text">
-     <string>LOG2: </string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="LogLabel_3">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>490</y>
-      <width>151</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: white;</string>
-    </property>
-    <property name="text">
-     <string>LOG3: </string>
-    </property>
-   </widget>
    <widget class="MapQFrame" name="MapFrame">
     <property name="geometry">
      <rect>
@@ -205,6 +157,95 @@
       </property>
       <property name="text">
        <string>Find path</string>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>180</y>
+        <width>131</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);</string>
+      </property>
+      <property name="title">
+       <string>Path type</string>
+      </property>
+      <widget class="QRadioButton" name="OriginalPathRadioBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>91</width>
+         <height>19</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);</string>
+       </property>
+       <property name="text">
+        <string>Standart path</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="PulledPathRadioBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>40</y>
+         <width>91</width>
+         <height>19</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);</string>
+       </property>
+       <property name="text">
+        <string>Pulled path</string>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QCheckBox" name="CalculatePulledPath">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>280</y>
+        <width>131</width>
+        <height>19</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;</string>
+      </property>
+      <property name="text">
+       <string>Calculate pulled path</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="LogLabel_7">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>300</y>
+        <width>151</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string>color: white;</string>
+      </property>
+      <property name="text">
+       <string>Warning: this may take up to 30-40 seconds to calculate. And even more in extreme cases.</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
       </property>
      </widget>
     </widget>
@@ -424,7 +465,7 @@
      <x>0</x>
      <y>0</y>
      <width>692</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

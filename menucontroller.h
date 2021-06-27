@@ -11,6 +11,8 @@
 #include <statescontroller.h>
 #include <qstackedwidget.h>
 #include <QSpinBox>
+#include <QCheckBox>
+#include <qradiobutton.h>
 
 class AppController;
 
@@ -24,7 +26,6 @@ public:
     void PrintCursorCoords(QLabel* label, int x, int y);
 
 public slots:
-    void OnSetTraversabilityButtonPressed();
     void HandleStateChange(StatesController::STATES newState);
 
 private:
@@ -38,6 +39,9 @@ private:
     QPushButton* SetTraversabilityButton;
     QPushButton* DeletePolygonButton;
     QPushButton* FindPathButton;
+    QRadioButton* OriginalPathRadioBox;
+    QRadioButton* PulledPathRadioBox;
+    QCheckBox* CalculatePulledPath;
     //----------------------------------
 
     //Start tab
@@ -58,9 +62,6 @@ private:
     QPushButton* BackFromDeletePolygonPage;
     //-------------------------------------
 
-    QLabel* label1;
-    QLabel* label2;
-    QLabel* label3;
     QLabel* stateLabel;
     QLineEdit* traversabilityLine;
 

@@ -9,6 +9,7 @@ FloodFill::FloodFill()
 
 }
 
+//обнуление разных параметров у нод
 void ResetNodes(DataManager *dataManager)
 {
     for (int x = 0; x < dataManager->map->GetSize(); x++)
@@ -25,6 +26,7 @@ void ResetNodes(DataManager *dataManager)
     }
 }
 
+//функция для рекурсивной заливки области в какой-то regionIndex
 void FillFrom(Node *startNode, int regionIndex, DataManager* dataManager)
 {
     QQueue<Node*> nodeQueue;
@@ -46,6 +48,7 @@ void FillFrom(Node *startNode, int regionIndex, DataManager* dataManager)
     }
 }
 
+//функция по волновой заливке карты и разбивки её на регионы
 void FloodFill::FillRegions(DataManager *dataManager)
 {
     QElapsedTimer timer;

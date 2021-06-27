@@ -24,6 +24,7 @@ Node* Map::NodeAt(int x, int y)
     return nullptr;
 }
 
+//соседи по 8 направлениям относительно выбранной ноды
 QVector<Node *> Map::GetNeighbours(Node *rootNode)
 {
     QVector<Node*> neighbours;

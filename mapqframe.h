@@ -20,6 +20,9 @@ public:
     void Repaint(DataManager* dataManager);
     void mousePressEvent(QMouseEvent * ev);
 
+    bool showPulledPath = false;
+    bool showOriginalPath = true;
+
 signals:
     void OnMousePressed(int x, int y);
     void ChangeButtons (bool s, bool s2, bool s3, bool s4);

@@ -13,6 +13,8 @@ public:
 
     enum STATES {Idle, Start, End, CreatePolygon, DeletePolygon};
 
+    bool calculatePulledPath = false;
+
     STATES GetCurrentState();
     void SwitchState(STATES newState);
 

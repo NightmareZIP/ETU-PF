@@ -31,6 +31,10 @@ AppController::AppController(MainWindow* w) : QObject(w)
     DeletePolygonButton     = FindChild<QPushButton>(w, "DeletePolygonButton");
     FindPathButton          = FindChild<QPushButton>(w, "FindPathButton");
 
+    OriginalPathRadioBox = FindChild<QRadioButton>(w, "OriginalPathRadioBox");
+    PulledPathRadioBox   = FindChild<QRadioButton>(w, "PulledPathRadioBox");
+    CalculatePulledPath  = FindChild<QCheckBox>(w, "CalculatePulledPath");
+
     BackFromStartPageButton         = FindChild<QPushButton>(w, "BackFromStartPage");
     BackFromEndPageButton           = FindChild<QPushButton>(w, "BackFromEndPage");
 
@@ -40,9 +44,6 @@ AppController::AppController(MainWindow* w) : QObject(w)
 
     BackFromDeletePolygonPage = FindChild<QPushButton>(w, "BackFromDeletePolygonPage");
 
-    label1             = FindChild<QLabel>(w, "LogLabel_1");
-    label2             = FindChild<QLabel>(w, "LogLabel_2");
-    label3             = FindChild<QLabel>(w, "LogLabel_3");
     stateLabel         = FindChild<QLabel>(w, "StateLabel");
     traversabilityLine = FindChild<QLineEdit>(w, "TraversabilityLine");
     mapFrame           = FindChild<MapQFrame>(w, "MapFrame");
@@ -54,7 +55,22 @@ AppController::AppController(MainWindow* w) : QObject(w)
     ConnectStateSwitchButton(CreatePolygonButton, StatesController::CreatePolygon);
     ConnectStateSwitchButton(DeletePolygonButton, StatesController::DeletePolygon);
 
+    connect(OriginalPathRadioBox, &QRadioButton::released, [=]{
+       GetMapFrame()->showOriginalPath = true;
+       GetMapFrame()->showPulledPath = false;
+       GetMapFrame()->Repaint(dataManager);
+    });
 
+    connect(PulledPathRadioBox, &QRadioButton::released, [=]{
+       GetMapFrame()->showOriginalPath = false;
+       GetMapFrame()->showPulledPath = true;
+       GetMapFrame()->Repaint(dataManager);
+    });
+
+    connect(CalculatePulledPath, &QCheckBox::stateChanged, [=]
+    {
+       statesController->calculatePulledPath = CalculatePulledPath->checkState() == Qt::CheckState::Checked ? true : false;
+    });
 
     ConnectStateSwitchButton(BackFromStartPageButton, StatesController::Idle);
 
@@ -97,19 +113,6 @@ void AppController::PrintCursorCoords(QLabel* label, int x, int y)
 MapQFrame* AppController::GetMapFrame()
 {
     return mapFrame;
-}
-
-void AppController::OnSetTraversabilityButtonPressed()
-{
-    /*
-    _label1->setText("T button was pressed.");
-
-   if (statesController->GetCurrentState() == StatesController::CreatePolygon){
-       QString t = traversabilityLine->text();
-       _mapFrame->traversability = t.toInt();
-       _mapFrame->changeNewPolygonMode();
-   }
-   */
 }
 
 void AppController::HandleStateChange(StatesController::STATES newState)

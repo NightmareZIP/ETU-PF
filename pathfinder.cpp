@@ -9,6 +9,7 @@ Pathfinder::Pathfinder()
 
 }
 
+//эврестическая функция для приближенного вычисления расстояний
 int Heuristic(Node* A, Node* B) {
     // Octile
     int dx = abs(A->x - B->x);
@@ -16,6 +17,7 @@ int Heuristic(Node* A, Node* B) {
     return 10 * (dx + dy) + (14 - 2 * 10) * min(dx, dy);
 }
 
+//фактическое вычисление расстояний с учетом их проходимости
 int GetDistance(Node* A, Node* B) {
     double aTraversability = (double) 100 / (double) A->traversability;
     double bTraversability = (double) 100 / (double) B->traversability;
@@ -27,6 +29,7 @@ int GetDistance(Node* A, Node* B) {
     return 14 * distX + 10 * (distY - distX);
 }
 
+//обратная проходка для составления пути
 QVector<Node*> RetracePath(Node* startNode, Node* currentNode) {
     QVector<Node*> path;
     do {
@@ -36,6 +39,9 @@ QVector<Node*> RetracePath(Node* startNode, Node* currentNode) {
     return path;
 }
 
+//A* с использованием HashSet'a и MinHeap'a
+//и тот и другой очень важны для оптимизации работы в данных условиях
+//(учитывая, что мы не производим дополнительных абстракций)
 QVector<Node *> Pathfinder::FindPath(Node *startNode, Node *targetNode, Map* map)
 {
     QVector<Node*> path;
