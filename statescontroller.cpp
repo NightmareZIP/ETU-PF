@@ -1,5 +1,7 @@
 #include "statescontroller.h"
 #include <QtDebug>
+#include <qelapsedtimer.h>
+#include "pathfinder.h"
 
 StatesController::StatesController(DataManager *dataManager)
 {
@@ -43,6 +45,7 @@ void StatesController::HandlePressOnMap(int x, int y)
 void StatesController::ClearTemporalData()
 {
     dataManager->newPolygonPoints.clear();
+    dataManager->lastFoundPath.clear();
     emit OnRepaintRequested();
 }
 
@@ -115,4 +118,26 @@ void StatesController::TryCreateNewPolygon()
     {
         qDebug() << "Did not create new polygon";
     }
+}
+
+void StatesController::FindPath()
+{
+    QElapsedTimer timer;
+    timer.start();
+
+    QVector<Node*> path;
+    Node* startNode = dataManager->startNode;
+    Node* endNode = dataManager->endNode;
+
+    if (startNode == nullptr || endNode == nullptr)
+    {
+        qDebug() << "Cannot find path.";
+        return;
+    }
+
+    dataManager->BuildMap();
+    dataManager->lastFoundPath = Pathfinder::FindPath(startNode, endNode, dataManager->map);
+    emit OnRepaintRequested();
+
+    qDebug() << "Found Path(" << path.count() << ") in " << timer.elapsed() << "ms.";
 }

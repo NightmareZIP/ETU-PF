@@ -22,6 +22,7 @@ void MapQFrame::paintEvent(QPaintEvent *event)
 
     if (dataManager != nullptr)
     {
+
         //start node
         if (dataManager->startNode != nullptr)
         {
@@ -48,7 +49,16 @@ void MapQFrame::paintEvent(QPaintEvent *event)
         }
 
         //draw all polygons
-        DrawPolygons();
+        DrawPolygons(painter);
+
+        //draw path
+        for (int i = 0; i < dataManager->lastFoundPath.count(); i++)
+        {
+            Node* node = dataManager->lastFoundPath.value(i);
+            QColor* color = new QColor(223, 234, 33);
+            DrawCircle(painter, node->x, node->y, *color, 3);
+            delete color;
+        }
     }
 
     painter.end();
@@ -56,13 +66,13 @@ void MapQFrame::paintEvent(QPaintEvent *event)
 
 void MapQFrame::DrawCircle(QPainter& painter, int x, int y, QColor color, int size)
 {
+    painter.setPen(color);
     painter.setBrush(*new QBrush(color));
     painter.drawEllipse(x, y, size, size);
 }
 
-void MapQFrame::DrawPolygons()
+void MapQFrame::DrawPolygons(QPainter& painter)
 {
-    QPainter painter(this);
     //Draw all polygons
     QVector<PolygonStruct*> polygons = dataManager->polygonList;
     for (int i = 0; i < polygons.count(); i++)
@@ -81,7 +91,6 @@ void MapQFrame::DrawPolygons()
         }
         painter.drawPolygon(*polygon->GetPolygon(), Qt::WindingFill);
     }
-    painter.end();
 }
 
 void MapQFrame::mousePressEvent(QMouseEvent* ev)

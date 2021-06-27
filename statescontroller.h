@@ -17,6 +17,7 @@ public:
     void SwitchState(STATES newState);
 
     void TryCreateNewPolygon();
+    void FindPath();
 
 public slots:
     void HandlePressOnMap(int x, int y);

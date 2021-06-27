@@ -10,22 +10,27 @@ CONFIG += c++11
 
 SOURCES += \
     datamanager.cpp \
+    floodfill.cpp \
     main.cpp \
     mainwindow.cpp \
     map.cpp \
     mapqframe.cpp \
     menucontroller.cpp \
     node.cpp \
+    pathfinder.cpp \
     polygonstruct.cpp \
     statescontroller.cpp
 
 HEADERS += \
     datamanager.h \
+    floodfill.h \
     mainwindow.h \
     map.h \
     mapqframe.h \
     menucontroller.h \
+    minheap.h \
     node.h \
+    pathfinder.h \
     polygonstruct.h \
     statescontroller.h
 

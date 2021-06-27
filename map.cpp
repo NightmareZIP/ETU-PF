@@ -17,7 +17,33 @@ int Map::GetSize() const
 
 Node* Map::NodeAt(int x, int y)
 {
-    return grid[x][y];
+    if (x >= 0 && x < GetSize() && y >= 0 && y < GetSize())
+    {
+        return grid[x][y];
+    }
+    return nullptr;
+}
+
+QVector<Node *> Map::GetNeighbours(Node *rootNode)
+{
+    QVector<Node*> neighbours;
+    int x = rootNode->x;
+    int y = rootNode->y;
+    neighbours.append(NodeAt(x, y+1));
+    neighbours.append(NodeAt(x+1, y));
+    neighbours.append(NodeAt(x, y-1));
+    neighbours.append(NodeAt(x-1, y));
+
+    for (int i = neighbours.count() - 1; i >= 0; i--)
+    {
+        Node* n = neighbours.value(i);
+        if (n == nullptr)
+        {
+            neighbours.removeAt(i);
+        }
+    }
+
+    return neighbours;
 }
 
 void Map::CreateGrid()

@@ -18,6 +18,8 @@ public:
     QVector<QPoint> newPolygonPoints;
     int newPolygonTraversability = 0;
 
+    QVector<Node*> lastFoundPath;
+
     QVector<PolygonStruct*> polygonList;
     Map* map;
     Node* startNode = nullptr;

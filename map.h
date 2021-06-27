@@ -14,6 +14,8 @@ public:
     int GetSize() const;
     Node* NodeAt(int x, int y);
 
+    QVector<Node*> GetNeighbours(Node* rootNode);
+
 private:
     void CreateGrid();
 

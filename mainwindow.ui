@@ -207,6 +207,22 @@
        <string>Build Map</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="FindPathButton">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>170</y>
+        <width>151</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>Find path</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="StartNodePage">
      <widget class="QLabel" name="LogLabel_4">

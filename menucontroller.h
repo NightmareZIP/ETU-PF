@@ -38,6 +38,7 @@ private:
     QPushButton* SetTraversabilityButton;
     QPushButton* DeletePolygonButton;
     QPushButton* BuildMapButton;
+    QPushButton* FindPathButton;
     //----------------------------------
 
     //Start tab

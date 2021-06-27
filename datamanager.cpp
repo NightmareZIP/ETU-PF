@@ -1,6 +1,7 @@
 #include "datamanager.h"
 #include <QDebug>
 #include <qelapsedtimer.h>
+#include "floodfill.h"
 
 DataManager::DataManager()
 {
@@ -33,6 +34,7 @@ void DataManager::BuildMap()
         for (int y = 0; y < map->GetSize(); y++)
         {
             QPoint* point = new QPoint(x, y);
+            map->NodeAt(x, y)->traversability = 100;
             for (int i = polygonList.count() - 1; i >= 0; i--)
             {
                 PolygonStruct* ps = polygonList.value(i);
@@ -45,6 +47,9 @@ void DataManager::BuildMap()
             delete point;
         }
     }
+
+    //заполняем регионы
+    FloodFill::FillRegions(this);
 
     qDebug() << "Building of map took" << timer.elapsed() << "milliseconds";
 }

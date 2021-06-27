@@ -29,7 +29,7 @@ private:
     void paintEvent(QPaintEvent *event);
 
     void DrawCircle(QPainter& painter, int x, int y, QColor color, int size = 3);
-    void DrawPolygons();
+    void DrawPolygons(QPainter& painter);
     void DrawNode(Node *node, QColor* color);
 
     DataManager* dataManager = nullptr;
