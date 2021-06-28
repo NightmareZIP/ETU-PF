@@ -20,6 +20,7 @@ public:
 
     void TryCreateNewPolygon();
     void FindPath();
+    void writeXMLPath();
 
 public slots:
     void HandlePressOnMap(int x, int y);

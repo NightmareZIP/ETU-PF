@@ -2,6 +2,8 @@
 #include <QtDebug>
 #include <qelapsedtimer.h>
 #include "pathfinder.h"
+#include <QFile>
+#include <QXmlStreamWriter>
 
 StatesController::StatesController(DataManager *dataManager)
 {
@@ -148,7 +150,62 @@ void StatesController::FindPath()
     }
     int newPathLength = dataManager->lastFoundPath.count();
 
+
     emit OnRepaintRequested();
 
+    writeXMLPath();
     qDebug() << "Found Path(" << foundPathLength << ")->(" << newPathLength << ") in " << timer.elapsed() << "ms.";
+}
+
+
+void StatesController::writeXMLPath()
+{
+    QString filename = "./pathCoordinates.xml";
+    QFile file(filename);
+    file.open(QIODevice::WriteOnly);
+
+    double time = 0;
+// расчет времени
+    for(Node*& point : dataManager->lastFoundPath)
+    {
+        time += 100.0 / (point->traversability);
+    }
+    qDebug() << "XML started" << time;
+    QXmlStreamWriter xmlWriter(&file);
+    xmlWriter.setAutoFormatting(true);
+    xmlWriter.writeStartDocument();
+    xmlWriter.writeStartElement("Path");
+
+    xmlWriter.writeStartElement("Distance");
+    xmlWriter.writeCharacters(QString::number(dataManager->lastFoundPath.size()));
+    xmlWriter.writeEndElement();
+
+    xmlWriter.writeStartElement("Time");
+    xmlWriter.writeAttribute("time","seconds");
+    xmlWriter.writeCharacters(QString::number(time));
+    xmlWriter.writeEndElement();
+
+     xmlWriter.writeStartElement("Points");
+
+    for(auto& point : dataManager->lastFoundPath)
+    {
+        xmlWriter.writeStartElement("Point");
+
+        xmlWriter.writeStartElement("x");
+        xmlWriter.writeCharacters(QString::number(point->x));
+        xmlWriter.writeEndElement();
+
+        xmlWriter.writeStartElement("y");
+        xmlWriter.writeCharacters(QString::number(point->y));
+        xmlWriter.writeEndElement();
+
+        xmlWriter.writeEndElement();
+
+    }
+
+    xmlWriter.writeEndElement();
+
+    xmlWriter.writeEndElement();
+    xmlWriter.writeEndDocument();
+
 }
